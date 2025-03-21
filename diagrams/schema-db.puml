@@ -1,0 +1,57 @@
+@startuml
+
+entity student {
+  * id: Long
+  --
+  * id_spec: Long
+  * name: String
+  * surname: String
+  * birthdate: Timestamp
+  * created_at: Timestamp
+  updated_at: Timestamp
+  phone: String
+}
+
+entity specializations {
+  * id: Long
+  --
+  * spec_code: String
+  * name_spec: String
+}
+
+entity lessons {
+  * id: Long
+  --
+  * name_les: String
+}
+
+entity teachers {
+  * id: Long
+  --
+  * name: String
+  * surname: String
+}
+
+entity exams {
+  * id: Long
+  --
+  * id_lesson: Long
+  * date: Timestamp
+}
+
+entity exams_result {
+  * id: Long
+  --
+  * id_student: Long
+  * id_exam: Long
+  * grade: Int
+}
+
+student }|--|| specializations
+specializations }|--|{ lessons
+teachers }|--|{ lessons
+lessons ||--o{ exams
+exams ||--|{ exams_result
+student ||--o{ exams_result
+
+@enduml
