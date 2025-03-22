@@ -2,14 +2,14 @@
 select st.id, sp.name_spec, st.name, st.surname, st.birthdate, st.create_date, st.phone_number
 from student st
          join specializations sp on st.spec_id = sp.id
-where lower(st.name) like 'bob'
+where st.name ilike 'bob'
 order by st.id;
 
 --2. Найти пользователя по фамилии (частичное совпадение)
 select st.id, sp.name_spec, st.name, st.surname, st.birthdate, st.create_date, st.phone_number
 from student st
          join specializations sp on st.spec_id = sp.id
-where lower(st.surname) like '%mit%'
+where st.surname ilike '%mit%'
 order by st.id;
 
 --3. Найти пользователя по телефонному номеру (частичное совпадение)
@@ -25,7 +25,7 @@ from student st
          join exams_result er on st.id = er.student_id
          join exams ex on er.exam_id = ex.id
          join lessons les on ex.lesson_id = les.id
-where lower(st.surname) like '%mit%'
+where st.surname ilike '%mit%'
 order by er.grade desc;
 
 --7. Snapshot текущего состояния таблицы
@@ -45,19 +45,19 @@ order by low_grades_count desc;
 
 --11. Индексы
 
---HASH idx
+--B-Tree idx
 explain analyze
 select *
 from exams_result
 where grade = 5;
-create index idx_grade_hash on exams_result using hash (grade);
+create index idx_grade_hash on exams_result (grade);
 
---B-Tree idx
+--HASH idx
 explain analyze
 select *
 from student
 where name = 'Charlie';
-create index idx_student_name_btree on student (name);
+create index idx_student_name_btree on student using hash (name);
 
 --GIN idx
 explain analyze

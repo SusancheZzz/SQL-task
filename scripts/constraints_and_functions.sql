@@ -109,7 +109,7 @@ begin
            st.surname,
            l.name_lesson,
            er.grade,
-           snapshot_time
+           snapshot_date
 
     from exams_result er
              join student st on st.id = er.student_id
